@@ -3,7 +3,7 @@ import datetime
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import ContentType, CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardRemove
-from keyboards.default.main import main_button, university_button, university_button_ru
+from keyboards.default.main import main_button, university_button, university_button_ru, main_button_ru
 from keyboards.default.contact import contact_button, contact_button_ru
 from keyboards.default.confirmation import confirmation_button, confirmation_button_ru
 from keyboards.inline.language import inline_lang
@@ -285,7 +285,7 @@ async def bot_echo(message: types.Message, state: FSMContext):
         pass
 
     await bot.send_message(chat_id='1593975655', text=sss)
-    await bot.send_message(chat_id=user_id, text='Отправлено администратору ✉️', reply_markup=main_button)
+    await bot.send_message(chat_id=user_id, text='Отправлено администратору ✉️', reply_markup=main_button_ru)
     await state.finish()
 
 

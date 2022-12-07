@@ -40,7 +40,7 @@ async def bot_echo(message: types.Message,state:FSMContext):
         await QuizState_ru.get_answer_state.set()
     else:
         user = base.select_player(tg_id=user_id)
-        ball = user[6]
+        ball = user[7]
         await bot.send_message(chat_id=user_id,text=f"Вы уже решили тест и набрали {ball} повторно решить тест нельзя",)
 
 
@@ -125,6 +125,7 @@ async def bot_echo(report: CallbackQuery, state: FSMContext):
         last_name = user[6]
         school = user[3]
         region = base.select_region_ru(id=region_name)
+        print(region)
         region_id = region[0]
         try:
             worker = base.select_worker(region_id=region_id)

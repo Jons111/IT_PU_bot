@@ -127,7 +127,7 @@ async def bot_echo(report: CallbackQuery, state: FSMContext):
         last_name = user[6]
         school = user[3]
         region = base.select_region(id=region_name)
-
+        print(region)
         region_id = region[0]
         try:
             worker = base.select_worker(region_id=region_id)

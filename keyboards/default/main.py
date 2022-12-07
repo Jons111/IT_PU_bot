@@ -3,6 +3,15 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 main_button = ReplyKeyboardMarkup(
     keyboard=[[
         KeyboardButton(text='ITPU'),
+
+    ]
+    ],
+    resize_keyboard=True
+)
+
+main_button_ru = ReplyKeyboardMarkup(
+    keyboard=[[
+
         KeyboardButton(text='ITPU_RU')
     ]
     ],
