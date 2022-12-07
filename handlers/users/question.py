@@ -122,12 +122,12 @@ async def bot_echo(report: CallbackQuery, state: FSMContext):
 
         user = base.select_player(tg_id=user_id)
 
-        region_name = user[7]
+        region_name = user[8]
         name = user[1]
         last_name = user[6]
         school = user[3]
-        region = base.select_region(id=region_name)
-        print(region)
+        region = base.select_region(name=region_name)
+
         region_id = region[0]
         try:
             worker = base.select_worker(region_id=region_id)

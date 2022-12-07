@@ -8,7 +8,9 @@ from keyboards.inline.language import inline_pre_ru
 from states.conditions import QuizState, QuizState_ru
 from loader import dp, base, bot
 from keyboards.default.contact import next_button
-from keyboards.default.main import main_button
+from keyboards.default.main import main_button, main_button_ru
+
+
 # Echo bot
 @dp.message_handler(text='ITPU_RU')
 async def bot_echo(message: types.Message,state:FSMContext):
@@ -120,12 +122,12 @@ async def bot_echo(report: CallbackQuery, state: FSMContext):
 
         user = base.select_player(tg_id=user_id)
 
-        region_name = user[7]
+        region_name = user[8]
         name = user[1]
         last_name = user[6]
         school = user[3]
-        region = base.select_region_ru(id=region_name)
-        print(region)
+        region = base.select_region_ru(name=region_name)
+
         region_id = region[0]
         try:
             worker = base.select_worker(region_id=region_id)
@@ -141,7 +143,7 @@ async def bot_echo(report: CallbackQuery, state: FSMContext):
 
         await bot.send_message(chat_id=user_id,
                                text=f"Тест завершен.\n Поздравляем {result} вы правильно ответили на вопросы ",
-                               reply_markup=main_button)
+                               reply_markup=main_button_ru)
 
         await state.finish()
 """
