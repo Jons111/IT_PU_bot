@@ -107,11 +107,11 @@ async def bot_echo(message: types.Message, state: FSMContext):
     region = informations.get('region')
     phone_number = informations.get('phone')
 
-    hhh = f"Ism : {name}\n" \
-          f"Familiya : {surname}\n" \
-          f"Maktab : {school}\n" \
-          f"Viloyat : {region}\n" \
-          f"Telefon raqam: {phone_number}\n"
+    hhh = f"👨‍💼 Ism : {name}\n" \
+          f"🧔‍♂ Familiya : {surname}\n" \
+          f"🏫  Maktab : {school}\n" \
+          f"🌐 Viloyat : {region}\n" \
+          f"📞 Telefon raqam: {phone_number}\n"
 
     await message.answer(text=hhh, reply_markup=confirmation_button)
     await Form.confirmation.set()
@@ -129,11 +129,11 @@ async def bot_echo(message: types.Message, state: FSMContext):
     time = datetime.datetime.now()
     region = informations.get('region')
 
-    hhh = f"Ism: {name}\n" \
-          f"Familiya : {surname}\n" \
-          f"Maktab : {school}\n" \
-          f"Viloyat : {region}\n" \
-          f"Telefon raqam: {phone_number}\n"
+    hhh = f"👨‍💼 Ism : {name}\n" \
+          f"🧔‍♂ Familiya : {surname}\n" \
+          f"🏫  Maktab : {school}\n" \
+          f"🌐 Viloyat : {region}\n" \
+          f"📞 Telefon raqam: {phone_number}\n"
 
     idd = number[0] + 1
     try:
@@ -142,7 +142,7 @@ async def bot_echo(message: types.Message, state: FSMContext):
     except Exception as x:
         print(x)
 
-    await bot.send_message(chat_id='1593975655', text=hhh)
+    await bot.send_message(chat_id='5883029982', text=hhh)
     await bot.send_message(chat_id=user_id, text='Adminga yuborildi ✉️', reply_markup=main_button)
     await state.finish()
 
@@ -227,11 +227,11 @@ async def bot_echo(message: types.Message, state: FSMContext):
     phone_number = informations.get('phone')
     region = informations.get('region')
 
-    sss = f"Имя: {name}\n" \
-          f"Фамилия: {surname}\n" \
-          f"Школа: {school}\n" \
-          f"Регион: {region}\n" \
-          f"Номер телефона: {phone_number}\n"
+    sss = f"👨‍💼 Имя: {name}\n" \
+          f"🧔‍♂ Фамилия: {surname}\n" \
+          f"🏫 Школа: {school}\n" \
+          f"🌐 Регион: {region}\n" \
+          f"📞 Номер телефона: {phone_number}\n"
 
     await message.answer(text=sss, reply_markup=confirmation_button_ru)
     await Form_ru.confirmation.set()
@@ -249,11 +249,11 @@ async def bot_echo(message: types.Message, state: FSMContext):
     phone_number = informations.get('phone')
     region = informations.get('region')
 
-    sss = f"Имя: {name}\n" \
-          f"Фамилия: {surname}\n" \
-          f"Школа: {school}\n" \
-          f"Регион: {region}\n" \
-          f"Номер телефона: {phone_number}\n"
+    sss = f"👨‍💼 Имя: {name}\n" \
+          f"🧔‍♂ Фамилия: {surname}\n" \
+          f"🏫 Школа: {school}\n" \
+          f"🌐 Регион: {region}\n" \
+          f"📞 Номер телефона: {phone_number}\n"
 
     await message.answer(text=sss, reply_markup=confirmation_button_ru)
     await Form_ru.confirmation.set()
@@ -271,11 +271,11 @@ async def bot_echo(message: types.Message, state: FSMContext):
     number = base.count_registration()
     time = datetime.datetime.now()
 
-    sss = f"Имя: {name} ✔️\n" \
-          f"Фамилия: {surname} ✔️\n" \
-          f"Школа: {school} ✔️\n" \
-          f"Регион: {region}\n" \
-          f"Номер телефона: {phone_number} ✔️\n"
+    sss = f"👨‍💼 Имя: {name} ✔️\n" \
+          f"🧔‍♂ Фамилия: {surname} ✔️\n" \
+          f"🏫 Школа: {school} ✔️\n" \
+          f"🌐 Регион: {region}  ✔  \n"  \
+          f"📞 Номер телефона: {phone_number} ✔️\n"
 
     idd = number[0] + 1
     try:
@@ -284,7 +284,7 @@ async def bot_echo(message: types.Message, state: FSMContext):
     except Exception:
         pass
 
-    await bot.send_message(chat_id='1593975655', text=sss)
+    await bot.send_message(chat_id='5883029982', text=sss)
     await bot.send_message(chat_id=user_id, text='Отправлено администратору ✉️', reply_markup=main_button_ru)
     await state.finish()
 

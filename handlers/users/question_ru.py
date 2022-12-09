@@ -15,9 +15,9 @@ from keyboards.default.main import main_button, main_button_ru
 @dp.message_handler(text='ITPU_RU')
 async def bot_echo(message: types.Message,state:FSMContext):
     user_id = message.from_user.id
-    user = base.check_user_quiz_ru(tg_id=user_id)
-
-    if user[0] == 0:
+    user = base.check_user_quiz(tg_id=user_id)
+    user_ru = base.check_user_quiz_ru(tg_id=user_id)
+    if int(user[0]) == 0 and int(user_ru[0]) == 0:
         test_number = 1
         await state.update_data({'test_number':test_number})
         q = base.select_question_ru(id=test_number)
@@ -43,7 +43,7 @@ async def bot_echo(message: types.Message,state:FSMContext):
     else:
         user = base.select_player(tg_id=user_id)
         ball = user[7]
-        await bot.send_message(chat_id=user_id,text=f"Вы уже решили тест и набрали {ball} повторно решить тест нельзя",)
+        await bot.send_message(chat_id=user_id,text=f"Вы уже решили тест и набрали {ball} ✅ повторно решить тест нельзя",)
 
 
 @dp.callback_query_handler(state=QuizState_ru.get_answer_state)
@@ -124,25 +124,26 @@ async def bot_echo(report: CallbackQuery, state: FSMContext):
 
         region_name = user[8]
         name = user[1]
-        last_name = user[6]
-        school = user[3]
-        region = base.select_region_ru(name=region_name)
+        last_name = user[2]
+        school = user[4]
+        region = base.select_region_ru(id=region_name)
+        print(region)
 
-        region_id = region[0]
         try:
+            region_id = region[0]
             worker = base.select_worker(region_id=region_id)
-            worker_id = worker[5]
-            hhh = f"Имя: {name}\n" \
-                  f"Фамилия: {last_name}\n" \
-                  f"Школа: {school}\n " \
-                  f"Результат: {result} нашли правильных ответов \n"
+            worker_id = worker[4]
+            hhh = f"👨‍💼 Имя: {name}\n" \
+                  f"🧔‍♂ Фамилия: {last_name}\n" \
+                  f"🏫  Школа: {school}\n " \
+                  f"🏆  Результат: {result} нашли правильных ответов \n"
 
             await bot.send_message(chat_id=worker_id, text=hhh)
         except Exception as x:
-            await bot.send_message(chat_id=user_id, text=f"{region[1]} На данный момент нет сотрудника")
+            await bot.send_message(chat_id=user_id, text=f"{region_name} На данный момент нет сотрудника")
 
         await bot.send_message(chat_id=user_id,
-                               text=f"Тест завершен.\n Поздравляем {result} вы правильно ответили на вопросы ",
+                               text=f"Тест завершен.\n Поздравляем {result} вы ✅ правильно ответили на вопросы ",
                                reply_markup=main_button_ru)
 
         await state.finish()

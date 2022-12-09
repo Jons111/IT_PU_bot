@@ -36,7 +36,7 @@ class Question_ru(models.Model):
 
 class Result(models.Model):
     name = models.CharField(max_length=20)
-    username = models.CharField(max_length=30)
+    username = models.CharField(max_length=30,null=True, blank=True)
     tg_id = models.IntegerField()
     quiz = models.IntegerField(null=True, blank=True)
     answer_id = models.IntegerField(null=True, blank=True)
@@ -46,7 +46,7 @@ class Result(models.Model):
 
 class Result_ru(models.Model):
     name = models.CharField(max_length=20)
-    username = models.CharField(max_length=30)
+    username = models.CharField(max_length=30,null=True, blank=True)
     tg_id = models.IntegerField()
     quiz = models.IntegerField(null=True, blank=True)
     answer_id = models.IntegerField(null=True, blank=True)

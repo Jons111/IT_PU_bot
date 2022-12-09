@@ -16,8 +16,8 @@ from keyboards.default.main import main_button, university_button
 async def bot_echo(message: types.Message, state: FSMContext):
     user_id = message.from_user.id
     user = base.check_user_quiz(tg_id=user_id)
-
-    if int(user[0]) == 0:
+    user_ru = base.check_user_quiz_ru(tg_id=user_id)
+    if int(user[0]) == 0 and int(user_ru[0])==0:
         test_number = 1
         await state.update_data({'test_number': test_number})
         q = base.select_question(id=test_number)
@@ -45,7 +45,7 @@ async def bot_echo(message: types.Message, state: FSMContext):
 
         ball = user[7]
         await bot.send_message(chat_id=user_id,
-                               text=f"Siz testni yechib bo'lgansiz va <a href=''> {ball} </a> ta testni topgansiz qayta yechish mumkin emas ",
+                               text=f"Siz testni yechib bo'lgansiz va   {ball} ta ✅ testni topgansiz qayta yechish mumkin emas ",
                                reply_markup=university_button)
 
 
@@ -121,28 +121,30 @@ async def bot_echo(report: CallbackQuery, state: FSMContext):
         base.update_registration(result, tg_id=user_id)
 
         user = base.select_player(tg_id=user_id)
-
+        print(user)
         region_name = user[8]
         name = user[1]
-        last_name = user[6]
-        school = user[3]
+        last_name = user[2]
+        school = user[4]
         region = base.select_region(name=region_name)
 
-        region_id = region[0]
         try:
+
+            region_id = region[0]
             worker = base.select_worker(region_id=region_id)
-            worker_id = worker[5]
-            hhh = f"Ism: {name}\n" \
-                  f"Familya: {last_name}\n" \
-                  f"Maktab : {school}\n " \
-                  f"Natija : {result} ta to'g'ri javob topdi \n"
+
+            worker_id = worker[4]
+            hhh = f"👨‍💼 Ism: {name}\n" \
+                  f"🧔‍♂ Familya: {last_name}\n" \
+                  f"🏫  Maktab : {school}\n " \
+                  f"🏆  Natija : {result} ta to'g'ri javob topdi \n"
 
             await bot.send_message(chat_id=worker_id, text=hhh)
         except Exception as x:
            print(x)
 
         await bot.send_message(chat_id=user_id,
-                               text=f"Test yakunlandi.\n Tabriklaymiz {result} ta savolga to'g'ri javob berdingiz ",
+                               text=f"Test yakunlandi.\n Tabriklaymiz {result} ta ✅ savolga to'g'ri javob berdingiz ",
                                reply_markup=main_button)
 
         await state.finish()
