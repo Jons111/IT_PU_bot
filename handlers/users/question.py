@@ -4,7 +4,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 
-from keyboards.inline.language import inline_pre
+from keyboards.inline.language import inline_pre, inline_lang
 from states.conditions import QuizState
 from loader import dp, base, bot
 from keyboards.default.contact import next_button
@@ -43,9 +43,14 @@ async def bot_echo(message: types.Message, state: FSMContext):
     else:
         user = base.select_player(tg_id=user_id)
 
-        ball = user[7]
-        await bot.send_message(chat_id=user_id,
-                               text=f"Siz testni yechib bo'lgansiz va   {ball} ta ✅ testni topgansiz qayta yechish mumkin emas ",
+        if not user:
+            await bot.send_message(chat_id=user_id, text="Botdan Ro'yxatdan o'tmagansiz qayta ro'yxatdan o'ting",
+                                   reply_markup=inline_lang)
+            await state.finish()
+        else:
+            ball = user[7]
+            await bot.send_message(chat_id=user_id,
+                                   text=f"Siz testni yechib bo'lgansiz va   {ball} ta ✅ testni topgansiz qayta yechish mumkin emas ",
                                reply_markup=university_button)
 
 
@@ -114,37 +119,41 @@ async def bot_echo(report: CallbackQuery, state: FSMContext):
             base.update_registration_pre(presentation="Ha", tg_id=user_id)
         elif data == '2':
             base.update_registration_pre(presentation="Yo'q", tg_id=user_id)
-        results = base.select_answers(tg_id=user_id)
-        result = 0
-        for i in results:
-            result += int(i[0])
-        base.update_registration(result, tg_id=user_id)
+
 
         user = base.select_player(tg_id=user_id)
-        print(user)
-        region_name = user[8]
-        name = user[1]
-        last_name = user[2]
-        school = user[4]
-        region = base.select_region(name=region_name)
+        if not user:
+            await bot.send_message(chat_id=user_id,text="Botdan Ro'yxatdan o'tmagansiz qayta ro'yxatdan o'ting",reply_markup=inline_lang )
+            await state.finish()
+        else:
+            results = base.select_answers(tg_id=user_id)
+            result = 0
+            for i in results:
+                result += int(i[0])
+            base.update_registration(result, tg_id=user_id)
+            region_name = user[8]
+            name = user[1]
+            last_name = user[2]
+            school = user[4]
+            region = base.select_region(name=region_name)
 
-        try:
+            try:
 
-            region_id = region[0]
-            worker = base.select_worker(region_id=region_id)
+                region_id = region[0]
+                worker = base.select_worker(region_id=region_id)
 
-            worker_id = worker[4]
-            hhh = f"👨‍💼 Ism: {name}\n" \
-                  f"🧔‍♂ Familya: {last_name}\n" \
-                  f"🏫  Maktab : {school}\n " \
-                  f"🏆  Natija : {result} ta to'g'ri javob topdi \n"
+                worker_id = worker[4]
+                hhh = f"👨‍💼 Ism: {name}\n" \
+                      f"🧔‍♂ Familya: {last_name}\n" \
+                      f"🏫  Maktab : {school}\n " \
+                      f"🏆  Natija : {result} ta to'g'ri javob topdi \n"
 
-            await bot.send_message(chat_id=worker_id, text=hhh)
-        except Exception as x:
-           print(x)
+                await bot.send_message(chat_id=worker_id, text=hhh)
+            except Exception as x:
+               print(x)
 
-        await bot.send_message(chat_id=user_id,
-                               text=f"Test yakunlandi.\n Tabriklaymiz {result} ta ✅ savolga to'g'ri javob berdingiz ",
-                               reply_markup=main_button)
+            await bot.send_message(chat_id=user_id,
+                                   text=f"Test yakunlandi.\n Tabriklaymiz {result} ta ✅ savolga to'g'ri javob berdingiz ",
+                                   reply_markup=main_button)
 
-        await state.finish()
+            await state.finish()

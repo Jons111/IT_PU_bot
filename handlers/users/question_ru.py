@@ -4,7 +4,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 
-from keyboards.inline.language import inline_pre_ru
+from keyboards.inline.language import inline_pre_ru, inline_lang
 from states.conditions import QuizState, QuizState_ru
 from loader import dp, base, bot
 from keyboards.default.contact import next_button
@@ -42,8 +42,13 @@ async def bot_echo(message: types.Message,state:FSMContext):
         await QuizState_ru.get_answer_state.set()
     else:
         user = base.select_player(tg_id=user_id)
-        ball = user[7]
-        await bot.send_message(chat_id=user_id,text=f"Вы уже решили тест и набрали {ball} ✅ повторно решить тест нельзя",)
+        if not user:
+            await bot.send_message(chat_id=user_id, text="Botdan Ro'yxatdan o'tmagansiz qayta ro'yxatdan o'ting",
+                                   reply_markup=inline_lang)
+            await state.finish()
+        else:
+            ball = user[7]
+            await bot.send_message(chat_id=user_id,text=f"Вы уже решили тест и набрали {ball} ✅ повторно решить тест нельзя",)
 
 
 @dp.callback_query_handler(state=QuizState_ru.get_answer_state)
@@ -114,39 +119,43 @@ async def bot_echo(report: CallbackQuery, state: FSMContext):
         elif data == '2':
             base.update_registration_pre(presentation="Yo'q", tg_id=user_id)
 
-        results = base.select_answers_ru(tg_id=user_id)
-        result = 0
-        for i in results:
-            result += int(i[0])
-        base.update_registration(result, tg_id=user_id)
 
         user = base.select_player(tg_id=user_id)
+        if not user:
+            await bot.send_message(chat_id=user_id, text="Botdan Ro'yxatdan o'tmagansiz qayta ro'yxatdan o'ting",
+                                   reply_markup=inline_lang)
+            await state.finish()
 
-        region_name = user[8]
-        name = user[1]
-        last_name = user[2]
-        school = user[4]
-        region = base.select_region_ru(id=region_name)
-        print(region)
+        else:
+            results = base.select_answers_ru(tg_id=user_id)
+            result = 0
+            for i in results:
+                result += int(i[0])
+            base.update_registration(result, tg_id=user_id)
+            region_name = user[8]
+            name = user[1]
+            last_name = user[2]
+            school = user[4]
+            region = base.select_region_ru(id=region_name)
 
-        try:
-            region_id = region[0]
-            worker = base.select_worker(region_id=region_id)
-            worker_id = worker[4]
-            hhh = f"👨‍💼 Имя: {name}\n" \
-                  f"🧔‍♂ Фамилия: {last_name}\n" \
-                  f"🏫  Школа: {school}\n " \
-                  f"🏆  Результат: {result} нашли правильных ответов \n"
+            try:
+                region_id = region[0]
+                worker = base.select_worker(region_id=region_id)
+                worker_id = worker[4]
+                hhh = f"👨‍💼 Имя: {name}\n" \
+                      f"🧔‍♂ Фамилия: {last_name}\n" \
+                      f"🏫  Школа: {school}\n " \
+                      f"🏆  Результат: {result} нашли правильных ответов \n"
 
-            await bot.send_message(chat_id=worker_id, text=hhh)
-        except Exception as x:
-            await bot.send_message(chat_id=user_id, text=f"{region_name} На данный момент нет сотрудника")
+                await bot.send_message(chat_id=worker_id, text=hhh)
+            except Exception as x:
+                await bot.send_message(chat_id=user_id, text=f"{region_name} На данный момент нет сотрудника")
 
-        await bot.send_message(chat_id=user_id,
-                               text=f"Тест завершен.\n Поздравляем {result} вы ✅ правильно ответили на вопросы ",
-                               reply_markup=main_button_ru)
+            await bot.send_message(chat_id=user_id,
+                                   text=f"Тест завершен.\n Поздравляем {result} вы ✅ правильно ответили на вопросы ",
+                                   reply_markup=main_button_ru)
 
-        await state.finish()
+            await state.finish()
 """
        
 
