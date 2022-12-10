@@ -49,8 +49,12 @@ async def bot_echo(message: types.Message, state: FSMContext):
             await state.finish()
         else:
             ball = user[7]
+            results = base.select_answers(tg_id=user_id)
+            result = 0
+            for i in results:
+                result += int(i[0])
             await bot.send_message(chat_id=user_id,
-                                   text=f"Siz testni yechib bo'lgansiz va   {ball} ta ✅ testni topgansiz qayta yechish mumkin emas ",
+                                   text=f"Siz testni yechib bo'lgansiz va   {result} ta ✅ testni topgansiz qayta yechish mumkin emas ",
                                reply_markup=university_button)
 
 
@@ -124,6 +128,7 @@ async def bot_echo(report: CallbackQuery, state: FSMContext):
         user = base.select_player(tg_id=user_id)
         if not user:
             await bot.send_message(chat_id=user_id,text="Botdan Ro'yxatdan o'tmagansiz qayta ro'yxatdan o'ting",reply_markup=inline_lang )
+
             await state.finish()
         else:
             results = base.select_answers(tg_id=user_id)
