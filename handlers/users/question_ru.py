@@ -8,7 +8,7 @@ from keyboards.inline.language import inline_pre_ru, inline_lang
 from states.conditions import QuizState, QuizState_ru
 from loader import dp, base, bot
 from keyboards.default.contact import next_button
-from keyboards.default.main import main_button, main_button_ru
+from keyboards.default.main import main_button, main_button_ru, university_button_ru
 
 
 # Echo bot
@@ -47,12 +47,13 @@ async def bot_echo(message: types.Message,state:FSMContext):
                                    reply_markup=inline_lang)
             await state.finish()
         else:
-            ball = user[7]
+
             results = base.select_answers_ru(tg_id=user_id)
             result = 0
             for i in results:
                 result += int(i[0])
-            await bot.send_message(chat_id=user_id,text=f"Вы уже решили тест и набрали {result} ✅ повторно решить тест нельзя",)
+            await bot.send_message(chat_id=user_id,text=f"Вы уже решили тест и набрали {result} ✅ повторно решить тест нельзя",
+                                   reply_markup=university_button_ru)
 
 
 @dp.callback_query_handler(state=QuizState_ru.get_answer_state)

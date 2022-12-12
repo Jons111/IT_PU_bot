@@ -33,8 +33,8 @@ university_button =InlineKeyboardMarkup (
 university_button_ru = InlineKeyboardMarkup(
     inline_keyboard=[
         [
-            InlineKeyboardButton(text='Об ITPU',url='https://itpu.uz/about/'),
-            InlineKeyboardButton(text="Факультеты ITPU",url='https://itpu.uz/epam/'),
+            InlineKeyboardButton(text='Об ITPU',url='https://itpu.uz/ru/'),
+            InlineKeyboardButton(text="Факультеты ITPU",url='https://itpu.uz/ru/itparkschool/'),
 
         ],
 
