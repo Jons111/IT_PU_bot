@@ -62,6 +62,7 @@ class Region(models.Model):
 
 class Region_ru(models.Model):
     name = models.CharField(max_length=50)
+    name_lotin = models.CharField(max_length=50,null=True,blank=True)
     time = models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.name

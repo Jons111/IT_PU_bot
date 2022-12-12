@@ -126,6 +126,7 @@ async def bot_echo(report: CallbackQuery, state: FSMContext):
 
 
         user = base.select_player(tg_id=user_id)
+        print(user)
         if not user:
             await bot.send_message(chat_id=user_id, text="Botdan Ro'yxatdan o'tmagansiz qayta ro'yxatdan o'ting",
                                    reply_markup=inline_lang)
@@ -141,7 +142,7 @@ async def bot_echo(report: CallbackQuery, state: FSMContext):
             name = user[1]
             last_name = user[2]
             school = user[4]
-            region = base.select_region_ru(id=region_name)
+            region = base.select_region(name=region_name)
 
             try:
                 region_id = region[0]

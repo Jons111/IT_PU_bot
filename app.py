@@ -18,5 +18,3 @@ if __name__ == '__main__':
     executor.start_polling(dp, on_startup=on_startup)
 
 
-royxat = [1,2,3,4,5]
-print(royxat.pop())

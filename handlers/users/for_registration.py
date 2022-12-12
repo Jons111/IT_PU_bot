@@ -183,13 +183,14 @@ async def bot_echo(message: types.Message, state: FSMContext):
     keys = []
     j = 0
     regions = base.select_all_regions_ru()
+    print(regions,'ru-----------------')
     for region in regions:
         if j % 2 == 0 and j != 0:
             index += 1
         if j % 2 == 0:
-            keys.append([InlineKeyboardButton(text=f'{region[1]}', callback_data=f'{region[1]}')])
+            keys.append([InlineKeyboardButton(text=f'{region[1]}', callback_data=f'{region[3]}')])
         else:
-            keys[index].append(InlineKeyboardButton(text=f'{region[1]}', callback_data=f"{region[1]}"))
+            keys[index].append(InlineKeyboardButton(text=f'{region[1]}', callback_data=f"{region[3]}"))
         j += 1
 
     option_button = InlineKeyboardMarkup(inline_keyboard=keys)
